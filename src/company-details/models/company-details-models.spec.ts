@@ -3,7 +3,7 @@ import { sortBy } from 'lodash'
 
 let companiesMockData = require('./mock-data/mock-data.json');
 
-describe('Comapny details model', () => {
+describe('Company details model', () => {
     let companyDetailsModel: CompanyDetailsModel;
     let mockData: CompanyDetails[];
 
@@ -21,7 +21,7 @@ describe('Comapny details model', () => {
         it('should return proper data while searching exact with company name', async () => {
             const result = companyDetailsModel.find({
                 searchText: 'Customer Assurance Liaison',
-                isEaxctMatch: true
+                isExactMatch: true
             });
             expect(result).toMatchObject([companiesMockData['exactNameMatch']]);
         });
@@ -29,7 +29,7 @@ describe('Comapny details model', () => {
         it('should return proper data while searching with exact company desription', async () => {
             const result = companyDetailsModel.find({
                 searchText: 'small desc',
-                isEaxctMatch: true
+                isExactMatch: true
             });
             expect(result).toMatchObject([companiesMockData['exactDescrpriptionMatch']]);
         });
@@ -37,7 +37,7 @@ describe('Comapny details model', () => {
         it('should return proper data while searching exact with company name with different case', async () => {
             const result = companyDetailsModel.find({
                 searchText: 'Small Desc',
-                isEaxctMatch: true
+                isExactMatch: true
             });
             expect(result).toMatchObject([]);
         });
@@ -68,7 +68,7 @@ describe('Comapny details model', () => {
             let sortMockdata = require('./mock-data/mock-data-sort.json');
             companyDetailsModel = new CompanyDetailsModel(sortMockdata);
             const result = companyDetailsModel.find(
-                {searchText: 'B', isEaxctMatch: true}, 
+                {searchText: 'B', isExactMatch: true}, 
                 { sort: ['name', 'dateLastEdited'] }
             );
 
@@ -105,7 +105,7 @@ describe('Comapny details model', () => {
             let sortMockdata = require('./mock-data/mock-data-sort.json');
             companyDetailsModel = new CompanyDetailsModel(sortMockdata);
             const result = companyDetailsModel.find(
-                {searchText: 'B', isEaxctMatch: true}, 
+                {searchText: 'B', isExactMatch: true}, 
                 { sort: ['name', 'dateLastEdited'], skip: 1, limit: 1 }
             );
 
@@ -146,12 +146,14 @@ describe('Comapny details model', () => {
             const query = {searchText: "test"}
             const result = companyDetailsModel.count(query);
             expect(companyDetailsModel.find).toBeCalledWith(query);
+            expect(result).toEqual(4);
         });
 
         it('should return count when query search query is provided without exact matching', async () => {
-            const query = {searchText: "test", isEaxctMatch: true}
+            const query = {searchText: "test", isExactMatch: true}
             const result = companyDetailsModel.count(query);
             expect(companyDetailsModel.find).toBeCalledWith(query);
+            expect(result).toEqual(4);
         });
     })
 });

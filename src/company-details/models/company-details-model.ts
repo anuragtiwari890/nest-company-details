@@ -8,16 +8,16 @@ export interface CompanyDetails {
     dateLastEdited: string
 };
 
-type Options = {
+export type Options = {
     sort?: string | string[],
     skip?: number,
     limit?: number
 };
 
 // For the demo purpose setting only single operation
-type Query = {
+export type Query = {
     searchText?: string,
-    isEaxctMatch?: boolean
+    isExactMatch?: boolean
 };
 
 // The impmentation of the model is very specific to the excercise 
@@ -33,7 +33,7 @@ export class CompanyDetailsModel {
         let ret = this.data;
 
         if (query.searchText) {
-            if (query.isEaxctMatch) {
+            if (query.isExactMatch) {
                 ret = ret.filter((companyDetail: CompanyDetails) => {
                     return query.searchText === companyDetail.name 
                         || query.searchText === companyDetail.description;
