@@ -37,13 +37,13 @@ export class CompanyDetailsModel {
                 ret = ret.filter((companyDetail: CompanyDetails) => {
                     return query.searchText === companyDetail.name 
                         || query.searchText === companyDetail.description;
-                })
+                });
             } else {
                 const words = query.searchText.toLowerCase().split(' ');
                 ret = ret.filter((companyDetail: CompanyDetails) => {
                     return this.searchTerm(words, companyDetail.name.toLowerCase()) ||
-                        this.searchTerm(words, companyDetail.description.toLowerCase())
-                })
+                        this.searchTerm(words, companyDetail.description.toLowerCase());
+                });
             }
         }
 
@@ -64,7 +64,11 @@ export class CompanyDetailsModel {
 
     private searchTerm(words: string[], searchText: string) {
         return words.some(word => {
-            return searchText.includes(word)
-        })
+            return searchText.includes(word);
+        });
+    }
+
+    count(query: Query): number {
+        return this.find(query).length || 0;
     }
 }

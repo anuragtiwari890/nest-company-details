@@ -12,11 +12,7 @@ describe('Comapny details model', () => {
         companyDetailsModel = new CompanyDetailsModel(mockData);
     });
 
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-
-    describe('Search Companies -> Find', () => {
+    describe('Search Companies -> Find()', () => {
         it('should return all the data if no search text is provided', async () => {
             const result = companyDetailsModel.find({});
             expect(result).toMatchObject(mockData);
@@ -131,4 +127,31 @@ describe('Comapny details model', () => {
             expect(result).toMatchObject(expectedRes)
         });
     });
+
+    describe('Search Companies -> Count()', () => {
+        beforeEach(async () => {
+            companyDetailsModel.find = jest.fn().mockImplementation(() => [1,2,3,4])
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
+        it('should return count when query is empty', async () => {
+            const result = companyDetailsModel.count({});
+            expect(result).toEqual(4);
+        });
+
+        it('should return count when query search query is provided with exact matching', async () => {
+            const query = {searchText: "test"}
+            const result = companyDetailsModel.count(query);
+            expect(companyDetailsModel.find).toBeCalledWith(query);
+        });
+
+        it('should return count when query search query is provided without exact matching', async () => {
+            const query = {searchText: "test", isEaxctMatch: true}
+            const result = companyDetailsModel.count(query);
+            expect(companyDetailsModel.find).toBeCalledWith(query);
+        });
+    })
 });
