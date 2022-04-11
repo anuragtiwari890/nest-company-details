@@ -1,6 +1,7 @@
 import { CompanyDetailsModel, CompanyDetails } from './company-details-model';
+import { sortBy } from 'lodash'
 
-let companiesMockData = require('./mock-data.json');
+let companiesMockData = require('./mock-data/mock-data.json');
 
 describe('Comapny details model', () => {
     let companyDetailsModel: CompanyDetailsModel;
@@ -23,7 +24,7 @@ describe('Comapny details model', () => {
 
         it('should return proper data while searching exact with company name', async () => {
             const result = companyDetailsModel.find({
-                searchText: 'Customer Assurance Liaison', 
+                searchText: 'Customer Assurance Liaison',
                 isEaxctMatch: true
             });
             expect(result).toMatchObject([companiesMockData['exactNameMatch']]);
@@ -31,7 +32,7 @@ describe('Comapny details model', () => {
 
         it('should return proper data while searching with exact company desription', async () => {
             const result = companyDetailsModel.find({
-                searchText: 'small desc', 
+                searchText: 'small desc',
                 isEaxctMatch: true
             });
             expect(result).toMatchObject([companiesMockData['exactDescrpriptionMatch']]);
@@ -39,24 +40,52 @@ describe('Comapny details model', () => {
 
         it('should return proper data while searching exact with company name with different case', async () => {
             const result = companyDetailsModel.find({
-                searchText: 'Small Desc', 
+                searchText: 'Small Desc',
                 isEaxctMatch: true
             });
-            expect(result).toMatchObject([]); 
+            expect(result).toMatchObject([]);
         });
 
         it('should return proper data while searching with company name wihout Exact match', async () => {
             const result = companyDetailsModel.find({
-                searchText: 'Contains', 
+                searchText: 'Contains',
             });
             expect(result).toMatchObject([companiesMockData['containsNameMatch']]);
         });
 
         it('should return proper data while searching with company description wihout Exact match', async () => {
             const result = companyDetailsModel.find({
-                searchText: 'descriptionsss', 
+                searchText: 'descriptionsss',
             });
             expect(result).toMatchObject([companiesMockData['containsDescriptionMatch']]);
         });
+
+        it('should sort the data when sorting is provided', async () => {
+            let sortMockdata = require('./mock-data/mock-data-sort.json');
+            companyDetailsModel = new CompanyDetailsModel(sortMockdata);
+            const result = companyDetailsModel.find({}, { sort: ['name', 'dateLastEdited'] });
+
+            expect(result).toMatchObject(sortBy(sortMockdata, ['name', 'dateLastEdited']))
+        });
+
+        it('should sort the data when sorting and exact match search both are provided', async () => {
+            let sortMockdata = require('./mock-data/mock-data-sort.json');
+            companyDetailsModel = new CompanyDetailsModel(sortMockdata);
+            const result = companyDetailsModel.find(
+                {searchText: 'B', isEaxctMatch: true}, 
+                { sort: ['name', 'dateLastEdited'] });
+
+            expect(result).toMatchObject(sortBy(sortMockdata.slice(0,2), ['name', 'dateLastEdited']))
+        });
+
+        it('should sort the data when sorting and search both are provided', async () => {
+            let sortMockdata = require('./mock-data/mock-data-sort.json');
+            companyDetailsModel = new CompanyDetailsModel(sortMockdata);
+            const result = companyDetailsModel.find(
+                {searchText: 'B'}, 
+                { sort: ['name', 'dateLastEdited'] });
+
+            expect(result).toMatchObject(sortBy(sortMockdata.slice(0,3), ['name', 'dateLastEdited']))
+        })
     });
 });

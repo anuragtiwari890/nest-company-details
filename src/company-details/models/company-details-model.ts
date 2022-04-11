@@ -1,4 +1,5 @@
 import { Inject, Injectable } from "@nestjs/common";
+import {sortBy} from 'lodash'
 
 export interface CompanyDetails {
     name: string,
@@ -8,7 +9,7 @@ export interface CompanyDetails {
 };
 
 type Options = {
-    sort?: string,
+    sort?: string | string[],
     skip?: number,
     limit?: number
 };
@@ -44,6 +45,10 @@ export class CompanyDetailsModel {
                         this.searchTerm(words, companyDetail.description.toLowerCase())
                 })
             }
+        }
+
+        if (options.sort) {
+            ret = sortBy(ret, options.sort);
         }
 
         return ret;
