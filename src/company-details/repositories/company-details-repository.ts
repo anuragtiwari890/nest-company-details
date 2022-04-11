@@ -6,20 +6,20 @@ import { CompanyDetailsModel, CompanyDetails, Query, Options } from '../models/c
 export class CompanyDetailsRepository {
     constructor(private readonly companyDetailsModel: CompanyDetailsModel) {}
 
-    search(
+    search(params: {
         searchText?: string, 
         isExactMatch?: boolean,
         sort?: string | string[], 
         skip?: number, 
         limit?: number
-    ):  CompanyDetails[] {
-        const modelquery: Query = this.getSearchQuery(searchText, isExactMatch);
-        const options: Options = this.getSearchQueryOptions(sort, skip, limit);
+    }):  CompanyDetails[] {
+        const modelquery: Query = this.getSearchQuery(params.searchText, params.isExactMatch);
+        const options: Options = this.getSearchQueryOptions(params.sort, params.skip, params.limit);
         return this.companyDetailsModel.find(modelquery, options);
     }
 
-    count(searchText?: string, isExactMatch?: boolean,) {
-        const modelquery: Query = this.getSearchQuery(searchText, isExactMatch);
+    count(params: {searchText?: string, isExactMatch?: boolean}) {
+        const modelquery: Query = this.getSearchQuery(params.searchText, params.isExactMatch);
         return this.companyDetailsModel.count(modelquery)
     }
 
