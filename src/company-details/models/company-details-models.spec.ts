@@ -37,6 +37,26 @@ describe('Comapny details model', () => {
             expect(result).toMatchObject([companiesMockData['exactDescrpriptionMatch']]);
         });
 
-        it.todo('should return proper data while searching with company name wihout Exact match');
+        it('should return proper data while searching exact with company name with different case', async () => {
+            const result = companyDetailsModel.find({
+                searchText: 'Small Desc', 
+                isEaxctMatch: true
+            });
+            expect(result).toMatchObject([]); 
+        });
+
+        it('should return proper data while searching with company name wihout Exact match', async () => {
+            const result = companyDetailsModel.find({
+                searchText: 'Contains', 
+            });
+            expect(result).toMatchObject([companiesMockData['containsNameMatch']]);
+        });
+
+        it('should return proper data while searching with company description wihout Exact match', async () => {
+            const result = companyDetailsModel.find({
+                searchText: 'descriptionsss', 
+            });
+            expect(result).toMatchObject([companiesMockData['containsDescriptionMatch']]);
+        });
     });
 });

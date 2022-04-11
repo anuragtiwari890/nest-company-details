@@ -1,14 +1,26 @@
 {
     "exactNameMatch": {
-      "name": "Customer Assurance Liaison",
-      "image": "http://lorempixel.com/640/480",
-      "description": "Vel voluptatem id repudiandae aut omnis. Deleniti tempore aliquam quia magnam eos. Sunt saepe nisi delectus.",
-      "dateLastEdited": "2018-05-19T12:33:25.545Z"
+        "name": "Customer Assurance Liaison",
+        "image": "http://lorempixel.com/640/480",
+        "description": "Vel voluptatem id repudiandae aut omnis. Deleniti tempore aliquam quia magnam eos. Sunt saepe nisi delectus.",
+        "dateLastEdited": "2018-05-19T12:33:25.545Z"
     },
     "exactDescrpriptionMatch": {
-      "name": "Dynamic Infrastructure Designer",
-      "image": "http://lorempixel.com/640/480",
-      "description": "small desc",
-      "dateLastEdited": "2017-11-28T04:59:13.759Z"
+        "name": "Dynamic Infrastructure Designer",
+        "image": "http://lorempixel.com/640/480",
+        "description": "small desc",
+        "dateLastEdited": "2017-11-28T04:59:13.759Z"
+    },
+    "containsNameMatch": {
+        "name": "contains Name testing is this",
+        "image": "http://lorempixel.com/640/480",
+        "description": "this is my description",
+        "dateLastEdited": "2017-11-28T04:59:13.759Z"
+    },
+    "containsDescriptionMatch": {
+        "name": "this is my name",
+        "image": "http://lorempixel.com/640/480",
+        "description": "Descriptionsss is here",
+        "dateLastEdited": "2017-11-28T04:59:13.759Z"
     }
 }
