@@ -1,13 +1,14 @@
-import { CompanyDetailsModel } from './company-details-model';
+import { CompanyDetailsModel, CompanyDetails } from './company-details-model';
 
 let companiesMockData = require('./mock-data.json');
 
 describe('Comapny details model', () => {
     let companyDetailsModel: CompanyDetailsModel;
-
+    let mockData: CompanyDetails[];
 
     beforeEach(async () => {
-        companyDetailsModel = new CompanyDetailsModel(companiesMockData);
+        mockData = Object.keys(companiesMockData).map(mockDataKey => companiesMockData[mockDataKey])
+        companyDetailsModel = new CompanyDetailsModel(mockData);
     });
 
     afterEach(() => {
@@ -17,7 +18,7 @@ describe('Comapny details model', () => {
     describe('Search Companies -> Find', () => {
         it('should return all the data if no search text is provided', async () => {
             const result = companyDetailsModel.find({});
-            expect(result).toMatchObject(companiesMockData);
+            expect(result).toMatchObject(mockData);
         });
 
         it('should return proper data while searching exact with company name', async () => {
@@ -25,9 +26,17 @@ describe('Comapny details model', () => {
                 searchText: 'Customer Assurance Liaison', 
                 isEaxctMatch: true
             });
-            expect(result).toMatchObject([companiesMockData[0]]);
+            expect(result).toMatchObject([companiesMockData['exactNameMatch']]);
         });
-        it.todo('should return proper data while searching with exact company desription');
-        it.todo('should return proper data while searching with company name');
+
+        it('should return proper data while searching with exact company desription', async () => {
+            const result = companyDetailsModel.find({
+                searchText: 'small desc', 
+                isEaxctMatch: true
+            });
+            expect(result).toMatchObject([companiesMockData['exactDescrpriptionMatch']]);
+        });
+
+        it.todo('should return proper data while searching with company name wihout Exact match');
     });
 });

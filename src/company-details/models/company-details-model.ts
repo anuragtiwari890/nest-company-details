@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 
-export interface ComapanyDetails {
+export interface CompanyDetails {
     name: string,
     description: string,
     image: string,
@@ -22,14 +22,21 @@ type Query = {
 // The impmentation of the model is very specific to the excercise 
 @Injectable()
 export class CompanyDetailsModel {
-    data: ComapanyDetails[];
+    data: CompanyDetails[];
     constructor(@Inject('companiesDetails') private readonly companiesDetails) {
         this.data = companiesDetails;
     }
 
     // This will only work for one field as per the current req
-    find(query: Query, options: Options = {}): ComapanyDetails[] {
+    find(query: Query, options: Options = {}): CompanyDetails[] {
         let ret = this.data;
+
+        if (query.isEaxctMatch) {
+            ret = ret.filter((companyDetail: CompanyDetails) => {
+                return query.searchText === companyDetail.name 
+                    || query.searchText === companyDetail.description;
+            })
+        } 
 
         return ret;
     }
