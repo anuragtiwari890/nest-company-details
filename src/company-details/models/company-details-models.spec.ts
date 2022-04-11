@@ -73,7 +73,8 @@ describe('Comapny details model', () => {
             companyDetailsModel = new CompanyDetailsModel(sortMockdata);
             const result = companyDetailsModel.find(
                 {searchText: 'B', isEaxctMatch: true}, 
-                { sort: ['name', 'dateLastEdited'] });
+                { sort: ['name', 'dateLastEdited'] }
+            );
 
             expect(result).toMatchObject(sortBy(sortMockdata.slice(0,2), ['name', 'dateLastEdited']))
         });
@@ -83,9 +84,51 @@ describe('Comapny details model', () => {
             companyDetailsModel = new CompanyDetailsModel(sortMockdata);
             const result = companyDetailsModel.find(
                 {searchText: 'B'}, 
-                { sort: ['name', 'dateLastEdited'] });
+                { sort: ['name', 'dateLastEdited'] }
+            );
 
             expect(result).toMatchObject(sortBy(sortMockdata.slice(0,3), ['name', 'dateLastEdited']))
         })
+
+        it('should skip the data when skip is provided', async () => {
+            const result = companyDetailsModel.find({}, { skip: 2 });
+            expect(result).toMatchObject(mockData.slice(2))
+        })
+
+        it('should return only 2 entries when limit is set to 2', async () => {
+            const result = companyDetailsModel.find({}, { limit: 2 });
+            expect(result).toMatchObject(mockData.slice(0,2))
+        })
+
+        it('should 2 entries starting from second index when limit is set to 2 and skip is set to 2', async () => {
+            const result = companyDetailsModel.find({}, { skip: 2, limit: 2 });
+            expect(result).toMatchObject(mockData.slice(2, 4));
+        });
+
+        it('should return proper data when exact search, sort, skip and limit are provided', async () => {
+            let sortMockdata = require('./mock-data/mock-data-sort.json');
+            companyDetailsModel = new CompanyDetailsModel(sortMockdata);
+            const result = companyDetailsModel.find(
+                {searchText: 'B', isEaxctMatch: true}, 
+                { sort: ['name', 'dateLastEdited'], skip: 1, limit: 1 }
+            );
+
+            const expectedRes = sortBy(sortMockdata.slice(0,2), ['name', 'dateLastEdited']).slice(1,2);
+
+            expect(result).toMatchObject(expectedRes)
+        });
+
+        it('should return proper data when search, sort, skip and limit are provided', async () => {
+            let sortMockdata = require('./mock-data/mock-data-sort.json');
+            companyDetailsModel = new CompanyDetailsModel(sortMockdata);
+            const result = companyDetailsModel.find(
+                {searchText: 'B'}, 
+                { sort: ['name', 'dateLastEdited'], skip: 1, limit: 2 }
+            );
+
+            const expectedRes = sortBy(sortMockdata.slice(0,3), ['name', 'dateLastEdited']).slice(1,3);
+
+            expect(result).toMatchObject(expectedRes)
+        });
     });
 });

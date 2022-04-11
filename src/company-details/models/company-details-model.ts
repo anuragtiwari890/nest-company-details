@@ -51,6 +51,14 @@ export class CompanyDetailsModel {
             ret = sortBy(ret, options.sort);
         }
 
+        if (options.skip && options.limit) {
+            ret = ret.slice(options.skip, options.skip + options.limit);
+        } else if (options.skip) {
+            ret = ret.slice(options.skip);
+        } else if (options.limit) {
+            ret = ret.slice(0, options.limit);
+        }
+
         return ret;
     }
 
