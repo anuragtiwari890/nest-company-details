@@ -2,7 +2,9 @@ import { CompanyDetailsRepository } from '../repositories/company-details-reposi
 import { SearchQueryParamsDTO } from '../dtos/search-query-dto';
 import { CompanyDetails } from '../models/company-details-model';
 import _ from 'lodash';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class CompanyDetailsService {
 
     constructor(
@@ -39,6 +41,8 @@ export class CompanyDetailsService {
         searchDTO.search  && 
             this.isExactMatchSearch(searchDTO.search) && 
             (params.isExactMatch = true);
+
+        params.isExactMatch && (params.searchText = params.searchText.slice(1,-1));
 
         return params;
     }

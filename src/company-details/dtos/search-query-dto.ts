@@ -1,4 +1,4 @@
-import { Type,Transform } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 import { IsOptional, Min, IsNotEmpty, ValidateNested } from 'class-validator';
 
 export class SearchQueryParamsDTO {

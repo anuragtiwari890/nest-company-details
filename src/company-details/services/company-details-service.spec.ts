@@ -57,7 +57,7 @@ describe('Company Service', () => {
         it('should return all the matching data which are exactly matching name or description', async () => {
             const params: any = {search: '"test"'};
             const result = companyDetailsService.search(params);
-            const expectedQuery = {searchText: params.search, isExactMatch: true};
+            const expectedQuery = {searchText: params.search.slice(1,-1), isExactMatch: true};
             expect(companyDetailsRepository.search).toBeCalledWith(expectedQuery);
             expect(companyDetailsRepository.count).toBeCalledWith(expectedQuery);
             expect(result).toMatchObject({companiesDetails: mockData, count: 2});
@@ -100,7 +100,7 @@ describe('Company Service', () => {
         it('should search with exact match, sort, skip and limit params', async () => {
             const params: any = {search: '"test"', sort: ['name'], skip: 10, limit: 10};
             const result = companyDetailsService.search(params);
-            const expectedQuery = {searchText: params.search, isExactMatch: true};
+            const expectedQuery = {searchText: params.search.slice(1,-1), isExactMatch: true};
             const expectedOptions = {skip: params.skip, limit: params.limit, sort: params.sort}
             expect(companyDetailsRepository.search).toBeCalledWith({...expectedOptions, ...expectedQuery});
             expect(companyDetailsRepository.count).toBeCalledWith(expectedQuery);
