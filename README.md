@@ -58,16 +58,45 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## API Details
+### Company Detials API 
+URL - 
+```bash
+$localhost:3000/company-details
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Query parameters
 
-## Stay in touch
+| KEY           | Type            |    Description                  |
+| :------------:|:---------------:|  :---------------              |
+| search        | String          |  Specify the Search text, if wrapped in double quotes ("test") will be considered as an complete match |
+| sort          | String          |  Specify the field to be considered for sorting, provide comma seperated in case of multple field eg:name,description| 
+| skip          | number          |  Specify the value that needs to skipped                              |
+| limit         | number          |  Specify the number of content that should be returned that API call                               |
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Sample API Request
+```
+$ localhost:3000/company-details?search=Assurance&sort=name,dateLastEdited&skip=2&limit=2
+```
 
-## License
+Example Response Body
+```
+{
+    "companiesDetails": [
+        {
+            "name": "Customer Assurance Liaison",
+            "image": "http://lorempixel.com/640/480",
+            "description": "Vel voluptatem id repudiandae aut omnis. Deleniti tempore aliquam quia magnam eos. Sunt saepe nisi delectus.",
+            "dateLastEdited": "2018-03-19T12:33:25.545Z"
+        },
+        {
+            "name": "Customer Assurance Liaison",
+            "image": "http://lorempixel.com/640/480",
+            "description": "Vel voluptatem id repudiandae aut omnis. Deleniti tempore aliquam quia magnam eos. Sunt saepe nisi delectus.",
+            "dateLastEdited": "2018-04-19T12:33:25.545Z"
+        }
+    ],
+    "count": 9
+}
+```
 
-Nest is [MIT licensed](LICENSE).
